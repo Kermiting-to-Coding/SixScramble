@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6-Letter Wordle Game</title>
+    <title>Wordle Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h1>Haley Wins Wordle</h1>
     <div class="container">
-        <h1>6-Letter Wordle Game</h1>
         <div id="board" class="board"></div>
-        <input type="text" id="guessInput" maxlength="6" />
-        <button onclick="submitGuess()">Submit Guess</button>
+        <input type="text" id="guessInput" maxlength="6" readonly>
+        <button class="submit-button" onclick="submitGuess()">Submit</button>
         <div id="keyboard" class="keyboard"></div>
     </div>
-    <script src="script.js"></script>
+    <script src="wordlist.js"></script> <!-- Load the word list first -->
+    <script src="script.js"></script> <!-- Load the game logic -->
 </body>
 </html>
