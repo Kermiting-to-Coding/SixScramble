@@ -77,8 +77,9 @@ function submitGuess() {
     displayGuess(guess);
     updateKeyboard(guess);
     guessInput.value = '';
-
+// make a better way to display a win. 
     if (guess === targetWord) {
+       
         alert('Congratulations! You guessed the word in ' + attempts + ' attempts.');
     }
 }
