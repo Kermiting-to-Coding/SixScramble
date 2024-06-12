@@ -1,9 +1,9 @@
 console.log('script.js loaded');
 
 // Select a random word from the word list as the target word
-let targetWord = wordList[Math.floor(Math.random() * wordList.length)];
-console.log('Target Word:', targetWord); // Log the target word for debugging
+let targetWord = '';
 let attempts = 0;
+let startTime;
 
 // Define the keyboard layout
 const keyboardLayout = [
@@ -13,9 +13,16 @@ const keyboardLayout = [
     '←' // Use the actual backspace symbol here
 ];
 
+// Function to set a new target word
+function setTargetWord() {
+    targetWord = wordList[Math.floor(Math.random() * wordList.length)];
+    console.log('Target Word:', targetWord); // Log the target word for debugging
+}
+
 // Create the keyboard on the screen
 function createKeyboard() {
     const keyboard = document.getElementById('keyboard');
+    keyboard.innerHTML = ''; // Clear existing keyboard
     keyboardLayout.forEach(row => {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'keyboard-row';
@@ -60,6 +67,42 @@ function updateKeyboard(guess) {
     });
 }
 
+// Reset the keyboard to its original state
+function resetKeyboard() {
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => {
+        key.classList.remove('correct', 'present', 'absent');
+    });
+}
+
+// Show the modal with a message
+function showModal(message) {
+    const modal = document.getElementById('winModal');
+    const modalMessage = document.getElementById('modalMessage');
+    modalMessage.innerHTML = message;
+    modal.style.display = 'flex';
+}
+
+// Close the modal
+function closeModal() {
+    const modal = document.getElementById('winModal');
+    modal.style.display = 'none';
+}
+
+// Start the timer when the game begins
+function startTimer() {
+    startTime = new Date();
+}
+
+// Calculate and return the time spent
+function getTimeSpent() {
+    const endTime = new Date();
+    const timeDiff = endTime - startTime; // Time difference in milliseconds
+    const seconds = Math.floor(timeDiff / 1000) % 60;
+    const minutes = Math.floor(timeDiff / 60000);
+    return `${minutes} minute(s) and ${seconds} second(s)`;
+}
+
 // Submit the guess and check it against the target word
 function submitGuess() {
     console.log('Submit Guess called');
@@ -69,7 +112,6 @@ function submitGuess() {
 
     if (guess.length !== 6 || !wordList.includes(guess)) {
         alert('Please enter a valid 6-letter word.');
-        console.log(`\"${guess}\"\,`);
         return;
     }
 
@@ -77,10 +119,10 @@ function submitGuess() {
     displayGuess(guess);
     updateKeyboard(guess);
     guessInput.value = '';
-// make a better way to display a win. 
+
     if (guess === targetWord) {
-       
-        alert('Congratulations! You guessed the word in ' + attempts + ' attempts.');
+        const timeSpent = getTimeSpent();
+        showModal(`Congratulations! You guessed the word in ${attempts} attempts and spent ${timeSpent} solving the puzzle.`);
     }
 }
 
@@ -110,5 +152,21 @@ function displayGuess(guess) {
     board.appendChild(row);
 }
 
-// Initialize the keyboard
+// Play again by resetting the game state
+function playAgain() {
+    closeModal();
+    setTargetWord();
+    attempts = 0;
+    document.getElementById('board').innerHTML = '';
+    document.getElementById('guessInput').value = '';
+    resetKeyboard();
+    startTimer();
+}
+
+// Initialize the game
 createKeyboard();
+setTargetWord();
+startTimer();
+
+// Hide the modal initially
+closeModal();

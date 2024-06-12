@@ -2,9 +2,11 @@
     text-align: center;
     margin-top: 50px;
 }
+
 body {
     background-color: #ee82ee;
-  }
+}
+
 .board {
     display: flex;
     flex-direction: column;
@@ -16,9 +18,6 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 5px;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-right: 5px;
 }
 
 .tile {
@@ -59,9 +58,6 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 5px;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-right: 5px;
 }
 
 .key {
@@ -77,15 +73,6 @@ body {
     user-select: none;
     text-transform: uppercase;
     background-color: beige;
-    border-radius: 4px;
-    transition: width .5s, height .5s;
-}
-.key:hover{
-    background-color: #6aa84f; /* Green */
-    color: white;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    width: 45px;
-    height: 45px;
 }
 
 .key.correct {
@@ -103,20 +90,39 @@ body {
     color: white;
 }
 
-/* Style for the backspace key */
-.key.backspace {
-    width: 80px; /* Make it wider to accommodate the backspace symbol */
-}
-.submit-button{
-    width: 100px;
-    height: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    transition: width .5s, height .5s;
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.submit-button:hover{
-    width: 110px;
-    height: 50;
-    background-color: #6aa84f;
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    width: 300px;
+    max-width: 80%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
 }
