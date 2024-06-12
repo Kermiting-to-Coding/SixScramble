@@ -124,5 +124,7 @@ const wordList = [
     "versus", "victim", "vision", "visual", "volume", "walker", "wealth", "weekly",
     "weight", "window", "winner", "winter", "within", "wonder", "worker", "wright",
     "writer", "yellow", "praise", "cheeky","insist","motley","cloven","bunted","lovely",
-    "bonded","thread","unwise","annise","pointy","resold","repoed","plunge","pointy",
+    "bonded","thread","unwise","annise","pointy","resold","repoed","plunge","pointy","dragon","pardon",
+    "sensor","linger", "puffer","buffer",
+
 ];
