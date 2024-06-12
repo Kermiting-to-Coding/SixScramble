@@ -4,7 +4,8 @@ console.log('script.js loaded');
 let targetWord = '';
 let attempts = 0;
 let startTime;
-
+let timerEnabled = true; // Variable to track if the timer is enabled
+let newWords = []
 // Define the keyboard layout
 const keyboardLayout = [
     'qwertyuiop',
@@ -91,16 +92,33 @@ function closeModal() {
 
 // Start the timer when the game begins
 function startTimer() {
-    startTime = new Date();
+    if (timerEnabled) {
+        startTime = new Date();
+    }
 }
 
 // Calculate and return the time spent
 function getTimeSpent() {
+    if (!timerEnabled) {
+        return 'Timer is disabled';
+    }
     const endTime = new Date();
     const timeDiff = endTime - startTime; // Time difference in milliseconds
     const seconds = Math.floor(timeDiff / 1000) % 60;
     const minutes = Math.floor(timeDiff / 60000);
     return `${minutes} minute(s) and ${seconds} second(s)`;
+}
+
+// Toggle the timer on and off
+function toggleTimer() {
+    timerEnabled = !timerEnabled;
+    const toggleButton = document.getElementById('toggleTimerButton');
+    toggleButton.textContent = timerEnabled ? 'Disable Timer' : 'Enable Timer';
+    if (timerEnabled) {
+        startTimer();
+    } else {
+        startTime = null;
+    }
 }
 
 // Submit the guess and check it against the target word
@@ -112,6 +130,10 @@ function submitGuess() {
 
     if (guess.length !== 6 || !wordList.includes(guess)) {
         alert('Please enter a valid 6-letter word.');
+        if(!wordList.includes(guess) && !newWords.includes(guess)){
+            newWords.push(guess);
+            console.log(newWords);
+        }
         return;
     }
 
