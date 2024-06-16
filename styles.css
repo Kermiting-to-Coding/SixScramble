@@ -69,7 +69,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    border: 1px solid #ccc;
+    border: 3px solid #000000;
     cursor: pointer;
     user-select: none;
     text-transform: uppercase;
@@ -127,4 +127,22 @@ body {
     border: none;
     font-size: 20px;
     cursor: pointer;
+}
+
+.timer {
+
+    
+}
+
+.toggleTimerButton{
+    background-color: #aa0404; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+
 }
