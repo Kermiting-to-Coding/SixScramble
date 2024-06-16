@@ -100,6 +100,9 @@ function closeModal() {
 function startTimer() {
     if (timerEnabled) {
         startTime = new Date();
+        document.getElementById("toggleTimerButton").style.background="#aa0404"
+    }else {
+        document.getElementById("toggleTimerButton").style.background="#17aa04"
     }
 }
 
@@ -114,7 +117,11 @@ function getTimeSpent() {
     const minutes = Math.floor(timeDiff / 60000);
     return `${minutes} minute(s) and ${seconds} second(s)`;
 }
+function countDown(){
 
+
+
+}
 // Toggle the timer on and off
 function toggleTimer() {
     timerEnabled = !timerEnabled;
@@ -124,6 +131,8 @@ function toggleTimer() {
         startTimer();
     } else {
         startTime = null;
+        startTimer();
+        //Re runs to get false 
     }
 }
 
