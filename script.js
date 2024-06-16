@@ -5,7 +5,9 @@ let targetWord = '';
 let attempts = 0;
 let startTime;
 let timerEnabled = true; // Variable to track if the timer is enabled
-let newWords = []
+
+
+
 // Define the keyboard layout
 const keyboardLayout = [
     'q w e r t y u i o p',
@@ -138,6 +140,7 @@ function toggleTimer() {
 
 // Submit the guess and check it against the target word
 function submitGuess() {
+   
     console.log('Submit Guess called');
     const guessInput = document.getElementById('guessInput');
     const guess = guessInput.value.toLowerCase();
