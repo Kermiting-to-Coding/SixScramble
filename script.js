@@ -8,10 +8,10 @@ let timerEnabled = true; // Variable to track if the timer is enabled
 let newWords = []
 // Define the keyboard layout
 const keyboardLayout = [
-    'qwertyuiop',
-    'asdfghjkl',
-    'zxcvbnm',
-    '←' // Use the actual backspace symbol here
+    'q w e r t y u i o p',
+    'a s d f g h j k l',
+    'z x c v b n m',
+    '← Submit'// Use the actual backspace symbol here
 ];
 
 // Function to set a new target word
@@ -27,7 +27,7 @@ function createKeyboard() {
     keyboardLayout.forEach(row => {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'keyboard-row';
-        row.split('').forEach(key => {
+        row.split(' ').forEach(key => {
             const keyDiv = document.createElement('div');
             keyDiv.className = 'key';
             keyDiv.textContent = key;
@@ -41,8 +41,14 @@ function createKeyboard() {
 // Handle key clicks from the virtual keyboard
 function handleKeyClick(key) {
     const guessInput = document.getElementById('guessInput');
-    if (key === '←') {
-        guessInput.value = guessInput.value.slice(0, -1); // Remove last character on backspace
+    if (key === '←' || key === 'Submit') {
+       if (key === '←' ) {
+        guessInput.value = guessInput.value.slice(0, -1);
+        }// Remove last character on backspace
+        if(key === 'Submit'){
+            submitGuess();
+
+        } 
     } else {
         if (guessInput.value.length < 6) {
             guessInput.value += key; // Add character to input if less than 6 characters
