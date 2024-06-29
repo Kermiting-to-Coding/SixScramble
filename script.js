@@ -6,8 +6,6 @@ let attempts = 0;
 let startTime;
 let timerEnabled = true; // Variable to track if the timer is enabled
 
-
-
 // Define the keyboard layout
 const keyboardLayout = [
     'q w e r t y u i o p',
@@ -102,9 +100,9 @@ function closeModal() {
 function startTimer() {
     if (timerEnabled) {
         startTime = new Date();
-        document.getElementById("toggleTimerButton").style.background="#aa0404"
+        document.getElementById("toggleTimerButton").style.background="#d38886"
     }else {
-        document.getElementById("toggleTimerButton").style.background="#17aa04"
+        document.getElementById("toggleTimerButton").style.background="#597fa2"
     }
 }
 
@@ -207,6 +205,7 @@ function playAgain() {
 createKeyboard();
 setTargetWord();
 startTimer();
+
 
 // Hide the modal initially
 closeModal();
