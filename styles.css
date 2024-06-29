@@ -181,3 +181,9 @@ body {
     margin: 5% 15% 5%;
 
 }
+.topBar{
+ background-color: #afdcdb;
+font-size: 20px;
+padding: 20px;
+border-radius: 10px;
+}
