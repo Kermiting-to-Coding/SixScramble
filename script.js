@@ -1,24 +1,59 @@
 console.log('script.js loaded');
 
-// Select a random word from the word list as the target word
+// Variables to store the game state
 let targetWord = '';
 let attempts = 0;
 let startTime;
 let timerEnabled = true; // Variable to track if the timer is enabled
-
-
+const newWords = []; // Array to store new word suggestions
 
 // Define the keyboard layout
 const keyboardLayout = [
     'q w e r t y u i o p',
     'a s d f g h j k l',
     'z x c v b n m',
-    '← Submit'// Use the actual backspace symbol here
+    '← Submit' // Use the actual backspace symbol here
 ];
 
+// Function to fetch a random six-letter word
+async function fetchRandomSixLetterWord() {
+    try {
+        const response = await fetch('https://random-word-api.herokuapp.com/word?number=1&length=6');
+        const words = await response.json();
+        console.log('Fetched word:', words[0]);
+        return words[0];
+    } catch (error) {
+        console.error('Error fetching random word:', error);
+        return null;
+    }
+}
+
+// Function to validate a word using the dictionary API
+async function validateWord(word) {
+    try {
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+        const isValid = response.ok;
+        console.log(`Word "${word}" validation result:`, isValid);
+        return isValid;
+    } catch (error) {
+        console.error('Error validating word:', error);
+        return false;
+    }
+}
+
 // Function to set a new target word
-function setTargetWord() {
-    targetWord = wordList[Math.floor(Math.random() * wordList.length)];
+async function setTargetWord() {
+    let word = '';
+    let isValid = false;
+
+    while (!isValid) {
+        word = await fetchRandomSixLetterWord();
+        if (word) {
+            isValid = await validateWord(word);
+        }
+    }
+
+    targetWord = word;
     console.log('Target Word:', targetWord); // Log the target word for debugging
 }
 
@@ -44,13 +79,12 @@ function createKeyboard() {
 function handleKeyClick(key) {
     const guessInput = document.getElementById('guessInput');
     if (key === '←' || key === 'Submit') {
-       if (key === '←' ) {
-        guessInput.value = guessInput.value.slice(0, -1);
-        }// Remove last character on backspace
-        if(key === 'Submit'){
+        if (key === '←') {
+            guessInput.value = guessInput.value.slice(0, -1);
+        } // Remove last character on backspace
+        if (key === 'Submit') {
             submitGuess();
-
-        } 
+        }
     } else {
         if (guessInput.value.length < 6) {
             guessInput.value += key; // Add character to input if less than 6 characters
@@ -102,9 +136,9 @@ function closeModal() {
 function startTimer() {
     if (timerEnabled) {
         startTime = new Date();
-        document.getElementById("toggleTimerButton").style.background="#aa0404"
-    }else {
-        document.getElementById("toggleTimerButton").style.background="#17aa04"
+        document.getElementById("toggleTimerButton").style.background = "#aa0404";
+    } else {
+        document.getElementById("toggleTimerButton").style.background = "#17aa04";
     }
 }
 
@@ -119,11 +153,7 @@ function getTimeSpent() {
     const minutes = Math.floor(timeDiff / 60000);
     return `${minutes} minute(s) and ${seconds} second(s)`;
 }
-function countDown(){
 
-
-
-}
 // Toggle the timer on and off
 function toggleTimer() {
     timerEnabled = !timerEnabled;
@@ -134,21 +164,19 @@ function toggleTimer() {
     } else {
         startTime = null;
         startTimer();
-        //Re runs to get false 
     }
 }
 
 // Submit the guess and check it against the target word
-function submitGuess() {
-   
+async function submitGuess() {
     console.log('Submit Guess called');
     const guessInput = document.getElementById('guessInput');
     const guess = guessInput.value.toLowerCase();
     console.log('Guess:', guess);
 
-    if (guess.length !== 6 || !wordList.includes(guess)) {
+    if (guess.length !== 6 || (!wordList.includes(guess) && !(await validateWord(guess)))) {
         alert('Please enter a valid 6-letter word.');
-        if(!wordList.includes(guess) && !newWords.includes(guess)){
+        if (!wordList.includes(guess) && !newWords.includes(guess) && await validateWord(guess)) {
             newWords.push(guess);
             console.log(newWords);
         }
@@ -193,9 +221,9 @@ function displayGuess(guess) {
 }
 
 // Play again by resetting the game state
-function playAgain() {
+async function playAgain() {
     closeModal();
-    setTargetWord();
+    await setTargetWord();
     attempts = 0;
     document.getElementById('board').innerHTML = '';
     document.getElementById('guessInput').value = '';
@@ -204,9 +232,12 @@ function playAgain() {
 }
 
 // Initialize the game
-createKeyboard();
-setTargetWord();
-startTimer();
+async function initializeGame() {
+    await setTargetWord();
+    createKeyboard();
+    closeModal();
+    startTimer();
+}
 
-// Hide the modal initially
-closeModal();
+// Start the game
+initializeGame();
