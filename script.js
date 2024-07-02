@@ -57,22 +57,26 @@ function handleKeyClick(key) {
 }
 
 // Update the visual state of the keyboard based on the guess
+// Update the visual state of the keyboard based on the guess
 function updateKeyboard(guess) {
     const keys = document.querySelectorAll('.key');
     guess.split('').forEach((letter, index) => {
         keys.forEach(key => {
             if (key.textContent === letter) {
                 if (letter === targetWord[index]) {
+                    key.classList.remove('present', 'absent'); // Remove any existing classes
                     key.classList.add('correct');
-                } else if (targetWord.includes(letter)) {
+                } else if (targetWord.includes(letter) && !key.classList.contains('correct')) {
+                    key.classList.remove('absent'); // Remove the absent class if present
                     key.classList.add('present');
-                } else {
+                } else if (!targetWord.includes(letter)) {
                     key.classList.add('absent');
                 }
             }
         });
     });
 }
+
 
 // Reset the keyboard to its original state
 function resetKeyboard() {
