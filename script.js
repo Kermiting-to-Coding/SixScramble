@@ -205,6 +205,8 @@ function playAgain() {
     startTimer();
 }
 
+
+
 // Initialize the game
 createKeyboard();
 setTargetWord();
